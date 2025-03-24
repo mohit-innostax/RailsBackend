@@ -1,0 +1,2 @@
+class TodoAppsController < ApplicationController
+end
