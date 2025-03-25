@@ -86,11 +86,14 @@ jobs:
       - name: Install Gems
         run: bundle install
 
+      - name: Install rubocop-rails-omakase
+        run: gem install rubocop-rails-omakase
+
       - name: Run tests
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
           # REDIS_URL: redis://localhost:6379/0
 
-        run: bundle exec rails db:test:prepare test
+        run: bundle exec rails db:test:prepare && bundle exec rails test
 
