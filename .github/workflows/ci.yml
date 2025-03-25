@@ -79,12 +79,15 @@ jobs:
 
       - name: Install rubocop-rails-omakase
         run: gem install rubocop-rails-omakase
-        
+
       - name: Install Rails
         run: gem install rails
 
       - name: Install Bundler
         run: gem install bundler
+
+      - name: Update Bundler
+        run: gem install bundler && bundle update --bundler  
 
       - name: Install Gems
         run: bundle install
