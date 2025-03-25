@@ -80,6 +80,9 @@ jobs:
       - name: Install rubocop-rails-omakase
         run: gem install rubocop-rails-omakase
 
+      - name: Disable Bundler frozen mode
+        run: bundle config set --local frozen false
+
       - name: Install Rails
         run: gem install rails
 
