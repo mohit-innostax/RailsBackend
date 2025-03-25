@@ -77,7 +77,9 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-
+      - name: Install rubocop-rails-omakase
+        run: gem install rubocop-rails-omakase
+        
       - name: Install Rails
         run: gem install rails
 
@@ -86,9 +88,6 @@ jobs:
 
       - name: Install Gems
         run: bundle install
-
-      - name: Install rubocop-rails-omakase
-        run: gem install rubocop-rails-omakase
 
       - name: Run tests
         env:
