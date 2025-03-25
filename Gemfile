@@ -43,7 +43,7 @@ group :development, :test do
   gem "brakeman", require: true
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-  gem "rubocop-rails-omakase", require: true
+  gem "rubocop-rails-omakase", require: false
 end
 
 gem "dotenv-rails", "~> 3.1"
