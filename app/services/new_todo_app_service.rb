@@ -5,39 +5,49 @@ module NewTodoAppService
 
     def self.get_tasks
       puts "Hello from NewTodoAppService"
-      TodoApp.all
+      sql="Select * from todo_apps where id>14"
+      result=ActiveRecord::Base.connection.execute(sql)
+      result.to_a
     end
 
     def self.create_task(todo_details)
-      todo=TodoApp.new(todo_details)
-      if todo.save
-        { success: true, task: todo, message: "Task created successfully" }
+      puts todo_details
+      sql=<<~Sql_Query
+              Insert into todo_apps ("title","isCompleted","priority","created_at","updated_at")
+              Values ('#{todo_details["title"]}','#{todo_details["isCompleted"]}','#{todo_details["priority"]}',NOW(),NOW())
+              Returning *
+            Sql_Query
+      result=ActiveRecord::Base.connection.execute(sql)
+      if result.present?
+        { success: true, task: result.first, message: "Task created successfully" }
       else
-        { success: false, error: todo.errors.full_messages }
+        { success: false, error: "Fail" }
       end
     end
 
     def self.update_task(id, todo_details)
-      todo = TodoApp.find_by(id: id)
-      if todo.nil?
+      puts id, todo_details
+      sql = <<~SQL
+            UPDATE todo_apps
+            SET title = '#{todo_details["title"]}',
+            "isCompleted" = '#{todo_details["isCompleted"]}',
+            priority = '#{todo_details["priority"]}',
+            updated_at = NOW()
+          WHERE id = #{id}
+            SQL
+      result=ActiveRecord::Base.connection.execute(sql)
+      if !result.present?
         return { success: false, error: "Task not found", status: 404 }
       end
-      if todo.update(todo_details)
-        { success: true, task: @todo, message: "Task updated successfully" }
-      else
-        { success: false, error: @todo.errors.full_messages, status: 400 }
-      end
+      { success: true, task: result.first, message: "Task updated successfully" }
     end
 
     def self.delete_task(id)
-      todo = TodoApp.find_by(id: id)
-      if todo.nil?
+      sql="Delete from todo_apps where id='#{id}'"
+      result=ActiveRecord::Base.connection.execute(sql)
+      if result.cmd_tuples <= 0
         return { success: false, error: "Task not found", status: 404 }
       end
-      if todo.destroy
-        { success: true, message: "Task deleted successfully" }
-      else
-        { success: false, message: todo.errors.full_message, status: 400 }
-      end
+      { success: true, message: "Task deleted successfully" }
     end
 end

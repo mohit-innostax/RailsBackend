@@ -1,5 +1,5 @@
 class TodoAppsController < ApplicationController
-    # include NewTodoAppService
+    include NewTodoAppService
     def index
         @todos=NewTodoAppService.get_tasks()
         render json: { tasks: @todos, message: "All tasks fetched successfully" }, status: 200
