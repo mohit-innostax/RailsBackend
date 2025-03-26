@@ -1,40 +1,43 @@
 class TodoAppsController < ApplicationController
+    # include NewTodoAppService
     def index
-        @todos=TodoApp.all
+        @todos=NewTodoAppService.get_tasks()
         render json: { tasks: @todos, message: "All tasks fetched successfully" }, status: 200
     end
 
     def create
-        @todo=TodoApp.new(todo_details)
-        if @todo.save
-            render json: { task: @todo, message: "Task created successfully" }, status: 201
+        result=NewTodoAppService.create_task(todo_details)
+        if result[:success]
+            render json: { task: result[:task], message: "Task created successfully" }, status: 201
         else
-            render json: { message: @todo.errors }, status: 400
+            render json: { message: result[:error] }, status: 400
         end
     end
 
     def show
-        @todo=TodoApp.find(id: params[:id])
+        id=params[:id]
+        @todo=TodoApp.find(id)
         render json: { task: @todo, message: "Task fetched successfully" }, status: 200
     rescue ActiveRecord::RecordNotFound
         render json: { message: "Task not found" }, status: 404
     end
 
     def update
-        @todo=TodoApp.find(params[:id])
-        if @todo.update(todo_details)
-            render json: { task: @todo, message: "Task updated successfully" }, status: 200
+        result=NewTodoAppService.update_task(params[:id], todo_details)
+        if result[:success]
+            render json: { task: result[:task], message: "Task created successfully" }, status: 201
+        else
+            render json: { message: result[:error] }, status: result[:status]
         end
-    rescue ActiveRecord::RecordNotFound
-        render json: { message: "Task not found" }, status: 404
     end
 
     def destroy
-        @todo = TodoApp.find(params[:id])
-        @todo.destroy
-        render json: { message: "Task deleted successfully" }, status: 200
-    rescue ActiveRecord::RecordNotFound
-        render json: { message: "Task not found" }, status: 404
+        result=NewTodoAppService.delete_task(params[:id])
+        if result[:success]
+            render json: { message: "Task deleted successfully" }, status: 200
+        else
+            render json: { message: result[:message] }, status: result[:status]
+        end
     end
 
     private
