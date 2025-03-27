@@ -1,4 +1,5 @@
 class AuthController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [ :register, :login ]
   require "jwt"
   SECRET_KEY = Rails.application.secret_key_base
   def register

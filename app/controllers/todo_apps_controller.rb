@@ -1,6 +1,6 @@
 class TodoAppsController < ApplicationController
     include NewTodoAppService
-    before_action :authorize_request, except: [  :create ]
+    before_action :authorize_request
     def index
         @todos=NewTodoAppService.get_tasks()
         render json: { tasks: @todos, message: "All tasks fetched successfully" }, status: 200
