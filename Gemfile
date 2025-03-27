@@ -48,3 +48,5 @@ end
 
 gem "dotenv-rails", "~> 3.1"
 gem "rack-cors", require: "rack/cors"
+gem "bcrypt"
+gem "jwt"

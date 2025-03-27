@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post "/register", to: "auth#register"
+  post "/login", to: "auth#login"
   post "/create-task", to: "todo_apps#create"
   get "/get-tasks", to: "todo_apps#index"
   get "/get-task/:id", to: "todo_apps#show"
