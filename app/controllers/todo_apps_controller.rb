@@ -9,10 +9,11 @@ class TodoAppsController < ApplicationController
 
     def create
         result=NewTodoAppService.create_task(todo_details)
+        puts "Current params>>>>:#{todo_details.inspect}"
         if result[:success]
-            render json: { task: result[:task], message: "Task created successfully" }, status: 201
+            redirect_to "/get-tasks", notice: "Task created successfully"
         else
-            render json: { message: result[:error] }, status: 400
+            render :new_form
         end
     end
 
