@@ -2,9 +2,9 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  username: postgres        # Your PostgreSQL username
-  password: Alpha@123      # Your PostgreSQL password
-  host: localhost           # Keep it localhost if running locally
+  username: <%= ENV["DB_USERNAME"] %>       #PostgreSQL username stored in .env file
+  password: <%= ENV["DB_PASSWORD"] %>       #PostgreSQL password stored in .env file
+  host: localhost           
 
 development:
   <<: *default

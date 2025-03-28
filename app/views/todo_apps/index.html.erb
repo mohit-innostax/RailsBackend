@@ -1,0 +1,10 @@
+<%= stylesheet_link_tag "index", media: "all" %>
+<h1 class="rails"> All todo are </h1>
+<%= @todos%>
+<%= render partial: "testing/temp" %>
+<ul>
+    <% @todos.each do |todo| %>
+        <%= render partial:"heading", locals: {todo:todo} %>
+    <%end%>   
+</ul>
+<%= link_to "Create New Task", "/new-task"%>

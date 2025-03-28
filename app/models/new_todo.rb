@@ -1,0 +1,2 @@
+class NewTodo < ApplicationRecord
+end
