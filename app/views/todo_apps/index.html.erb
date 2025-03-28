@@ -1,0 +1,8 @@
+<%= stylesheet_link_tag "index", media: "all" %>
+<h1 class="rails"> All todo are </h1>
+<%= @todos%>
+<ul>
+    <% @todos.each do |todo| %>
+        <%= render partial:"heading", locals: {todo:todo} %>
+    <%end%>   
+</ul>
