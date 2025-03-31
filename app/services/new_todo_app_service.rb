@@ -3,9 +3,12 @@ module NewTodoAppService
       "Welcome #{name} to the New Todo App!"
     end
 
-    def self.get_tasks
+    def self.get_tasks(title = nil)
       puts "Hello from NewTodoAppService"
-      sql="Select * from todo_apps where id>14"
+      sql="Select * from todo_apps"
+      if title.present?
+        sql = "Select * from todo_apps where title ilike '%#{title}%'"
+      end
       result=ActiveRecord::Base.connection.execute(sql)
       result.to_a
     end

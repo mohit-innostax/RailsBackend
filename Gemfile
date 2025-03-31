@@ -51,3 +51,7 @@ gem "rack-cors", require: "rack/cors"
 gem "bcrypt"
 gem "jwt"
 gem "sprockets-rails"
+gem "turbo-rails"
+gem "stimulus-rails"
+
+gem "importmap-rails"

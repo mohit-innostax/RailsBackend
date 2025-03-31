@@ -1,10 +1,21 @@
 <%= stylesheet_link_tag "index", media: "all" %>
 <h1 class="rails"> All todo are </h1>
-<%= @todos%>
+<div data-controller="search">
+  <input type="text" placeholder="Search tasks..." 
+    data-action="input->search#fetchTasks"
+    data-search-target="input">
+  <ul data-search-target="taskList">
+    <% @todos.each do |todo| %>
+      <li><%= todo["title"] %></li>
+    <% end %>
+  </ul>
+</div>
 <%= render partial: "testing/temp" %>
+<turbo-frame id="todos">
 <ul>
     <% @todos.each do |todo| %>
         <%= render partial:"heading", locals: {todo:todo} %>
     <%end%>   
 </ul>
+</turbo-frame>
 <%= link_to "Create New Task", "/new-task"%>

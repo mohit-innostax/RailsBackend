@@ -2,8 +2,13 @@ class TodoAppsController < ApplicationController
     include NewTodoAppService
     # before_action :authorize_request
     def index
-        @todos=NewTodoAppService.get_tasks()
+        title = JSON.parse(request.read)["title"] rescue nil
+        @todos=NewTodoAppService.get_tasks(title)
         puts @todos
+        respond_to do |format|
+            format.html
+            format.json { render json: { tasks: @todos, status: :ok } }
+        end
       #   render json: { tasks: @todos, message: "All tasks fetched successfully" }, status: 200
     end
 
