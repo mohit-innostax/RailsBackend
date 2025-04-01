@@ -1,15 +1,24 @@
 class TodoAppsController < ApplicationController
     include NewTodoAppService
-    # before_action :authorize_request
+    skip_before_action :verify_authenticity_token, only: [ :new_index, :create, :new_form, :update ]
+    before_action :authorize_request, except: [ :index, :create, :show, :update, :destroy, :new_index, :new_form ]
     def index
-        title = JSON.parse(request.read)["title"] rescue nil
-        @todos=NewTodoAppService.get_tasks(title)
+        @todos=NewTodoAppService.get_tasks()
         puts @todos
-        respond_to do |format|
-            format.html
-            format.json { render json: { tasks: @todos, status: :ok } }
-        end
       #   render json: { tasks: @todos, message: "All tasks fetched successfully" }, status: 200
+    end
+
+    def new_index
+        data = JSON.parse(request.body.read)  # Parse JSON request body
+        title = data["title"]                 # Extract title from JSON
+
+        if title.present?
+            @tasks=TodoApp.where("title ILIKE ?", "%#{title}%")
+        else
+            @tasks=TodoApp.all
+        end
+
+    render json: @tasks
     end
 
     def create
@@ -31,9 +40,11 @@ class TodoAppsController < ApplicationController
     end
 
     def update
-        result=NewTodoAppService.update_task(params[:id], todo_details)
+        data = JSON.parse(request.body.read)
+        title = data["title"]
+        result=NewTodoAppService.update_task(params[:id], title)
         if result[:success]
-            render json: { task: result[:task], message: "Task created successfully" }, status: 201
+            render json: { task: { id: params[:id], title: title }, message: "Task edited successfully" }, status: 200
         else
             render json: { message: result[:error] }, status: result[:status]
         end

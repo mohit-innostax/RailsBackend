@@ -55,3 +55,7 @@ gem "turbo-rails"
 gem "stimulus-rails"
 
 gem "importmap-rails"
+
+gem "tailwindcss-ruby", "~> 4.0"
+
+gem "tailwindcss-rails", "~> 4.2"

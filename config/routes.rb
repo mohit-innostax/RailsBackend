@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   post "/login", to: "auth#login"
   post "/create-task", to: "todo_apps#create"
   get "/get-tasks", to: "todo_apps#index"
+  post "/get-tasksss", to: "todo_apps#new_index"
   get "/get-task/:id", to: "todo_apps#show"
   get "/get-task", to: "todo_apps#show"
   put "/update-task/:id", to: "todo_apps#update"

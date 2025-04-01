@@ -4,3 +4,6 @@ h1{
 .rails{
     background-color: yellowgreen;
 }
+.task-name{
+    background-color: red;
+}

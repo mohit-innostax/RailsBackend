@@ -28,13 +28,11 @@ module NewTodoAppService
       end
     end
 
-    def self.update_task(id, todo_details)
-      puts id, todo_details
+    def self.update_task(id, title)
+      puts id, title
       sql = <<~SQL
             UPDATE todo_apps
-            SET title = '#{todo_details["title"]}',
-            "isCompleted" = '#{todo_details["isCompleted"]}',
-            priority = '#{todo_details["priority"]}',
+            SET title = '#{title}',
             updated_at = NOW()
           WHERE id = #{id}
             SQL
