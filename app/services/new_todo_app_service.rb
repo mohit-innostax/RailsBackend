@@ -5,7 +5,7 @@ module NewTodoAppService
 
     def self.get_tasks(title = nil)
       puts "Hello from NewTodoAppService"
-      sql="Select * from todo_apps"
+      sql="Select * from todo_apps order by id"
       if title.present?
         sql = "Select * from todo_apps where title ilike '%#{title}%'"
       end

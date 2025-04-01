@@ -1,6 +1,6 @@
 class TodoAppsController < ApplicationController
     include NewTodoAppService
-    skip_before_action :verify_authenticity_token, only: [ :new_index, :create, :new_form, :update ]
+    skip_before_action :verify_authenticity_token, only: [ :new_index, :create, :new_form, :update, :destroy ]
     before_action :authorize_request, except: [ :index, :create, :show, :update, :destroy, :new_index, :new_form ]
     def index
         @todos=NewTodoAppService.get_tasks()
@@ -53,7 +53,13 @@ class TodoAppsController < ApplicationController
     def destroy
         result=NewTodoAppService.delete_task(params[:id])
         if result[:success]
-            render json: { message: "Task deleted successfully" }, status: 200
+            format.turbo_stream do
+                render turbo_stream: turbo_stream.remove("todo_#{@task.id}")
+                end
+            # If the request is for JSON (usually for API calls or AJAX)
+            format.json do
+                render json: { message: "Task #{@task.title} deleted successfully!" }, status: 200
+                end
         else
             render json: { message: result[:message] }, status: result[:status]
         end

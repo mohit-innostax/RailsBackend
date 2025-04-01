@@ -1,12 +1,14 @@
 <%= stylesheet_link_tag "index", media: "all" %>
-<h1 class="rails"> All todo are </h1>
+<h1 class="text-5xl "> All todo are </h1>
 <div data-controller="search">
   <input type="text" placeholder="Search tasks..." 
     data-action="input->search#fetchTasks"
     data-search-target="input">
   <ul data-search-target="taskList">
     <% @todos.each do |todo| %>
-      <li><%= todo["title"] %></li>
+        <turbo-frame id="todo_<%= todo["id"]%>">
+            <li class="" ><%= todo["title"] %></li>
+        </turbo-frame>    
     <% end %>
   </ul>
 </div>
