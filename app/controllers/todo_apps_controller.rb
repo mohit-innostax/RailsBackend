@@ -3,8 +3,13 @@ class TodoAppsController < ApplicationController
     skip_before_action :verify_authenticity_token, only: [ :new_index, :create, :new_form, :update, :destroy, :register, :login ]
     before_action :authorize_request, except: [ :login, :register ]
     def index
-        @todos=NewTodoAppService.get_tasks()
-        puts @todos
+        # @todo=NewTodoAppService.get_tasks()
+        if current_user.id == 7
+            @todo=TodoApp.all
+        else
+            @todo = TodoApp.where(createdby: current_user.id)
+        end
+        puts @todo
       #   render json: { tasks: @todos, message: "All tasks fetched successfully" }, status: 200
     end
 
@@ -13,7 +18,7 @@ class TodoAppsController < ApplicationController
         title = data["title"]                 # Extract title from JSON
 
         if title.present?
-            @tasks=TodoApp.where("title ILIKE ?", "%#{title}%")
+            @tasks=TodoApp.where("title ILIKE ? AND createdby = ? ", "%#{title}%", current_user.id)
         else
             @tasks=TodoApp.all
         end
@@ -33,13 +38,15 @@ class TodoAppsController < ApplicationController
 
     def show
         id=params[:id]
-        @todo=TodoApp.find(id)
+        @todos=TodoApp.find(id)
         render json: { task: @todo, message: "Task fetched successfully" }, status: 200
     rescue ActiveRecord::RecordNotFound
         render json: { message: "Task not found" }, status: 404
     end
 
     def update
+        @todo_apps=TodoApp.find(params[:id])
+        authorize @todo_apps
         data = JSON.parse(request.body.read)
         title = data["title"]
         result=NewTodoAppService.update_task(params[:id], title)
@@ -51,8 +58,8 @@ class TodoAppsController < ApplicationController
     end
 
     def destroy
-        todo_app=TodoApp.find(params[:id])
-        authorize todo_app
+        @todo_apps=TodoApp.find(params[:id])
+        authorize @todo_apps
         result=NewTodoAppService.delete_task(params[:id])
         if result[:success]
             render json: { message: result[:message] }, status: result[:status]
@@ -63,6 +70,6 @@ class TodoAppsController < ApplicationController
 
     private
     def todo_details
-        params.permit(:title, :isCompleted, :priority)
+        params.permit(:title, :isCompleted, :priority, :createdby)
     end
 end

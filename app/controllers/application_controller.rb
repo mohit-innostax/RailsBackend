@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include ActionController::Cookies
-  include Pundit
+  include Pundit::Authorization
   before_action :authorize_request, except: [ :register, :login ]
   SECRET_KEY=Rails.application.secret_key_base
   # Used if we are sending JWT token from the Frontend

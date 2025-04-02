@@ -16,8 +16,8 @@ module NewTodoAppService
     def self.create_task(todo_details)
       puts todo_details
       sql=<<~Sql_Query
-              Insert into todo_apps ("title","isCompleted","priority","created_at","updated_at")
-              Values ('#{todo_details["title"]}','#{todo_details["isCompleted"]}','#{todo_details["priority"]}',NOW(),NOW())
+              Insert into todo_apps ("title","isCompleted","priority","created_at","updated_at","createdby")
+              Values ('#{todo_details["title"]}','#{todo_details["isCompleted"]}','#{todo_details["priority"]}',NOW(),NOW(),'#{todo_details["createdby"]}')
               Returning *
             Sql_Query
       result=ActiveRecord::Base.connection.execute(sql)

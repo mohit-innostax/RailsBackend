@@ -1,8 +1,12 @@
 <li id="todo_<%= todo_app["id"] %>" data-controller="search">
   <span data-search-target="title"><%= todo_app["title"] %></span>
-  <button data-action="click->search#edit">Edit</button>
-
-  <button data-action="click->search#delete" data-search-id="<%= todo_app["id"] %>">Delete</button>
+  <% if policy(todo_app).destroy? %>
+    <button data-action="click->search#edit" data-search-id="<%= todo_app["id"] %>">Edit</button>
+  <% end %>
+  <% if policy(todo_app).destroy? %>
+    <button data-action="click->search#delete" data-search-id="<%= todo_app["id"] %>">Delete</button>
+  <% end %>
+  
 
   
   <form data-search-target="editForm" data-action="submit->search#update" style="display: none;">

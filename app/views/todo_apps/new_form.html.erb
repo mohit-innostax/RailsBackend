@@ -15,7 +15,7 @@
     <%= f.label :isCompleted, "Mark as Completed" %>
     <%= f.text_field :isCompleted %>
   </div>
-
+  <%= f.hidden_field :createdby, value: current_user.id %>
   <div>
     <%= f.submit "Create Task" %>
   </div>
