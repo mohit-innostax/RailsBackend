@@ -15,9 +15,11 @@
 <%= render partial: "testing/temp" %>
 <turbo-frame id="todos">
 <ul>
-    <% @todos.each do |todo| %>
-        <%= render partial:"heading", locals: {todo:todo} %>
+    <% @todos.each do |todo_app| %>
+        <%= render partial:"heading", locals: {todo_app:todo_app} %>
     <%end%>   
 </ul>
 </turbo-frame>
-<%= link_to "Create New Task", "/new-task"%>
+<div><%= link_to "Create New Task", "/new-task"%></div>
+<div><%= link_to "Register a user", "/new-user"%></div>
+<div><%= link_to "Login", "/old-user"%></div>

@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   put "/update-task/:id", to: "todo_apps#update"
   delete "/delete-task/:id", to: "todo_apps#destroy"
   get "/new-task", to: "todo_apps#new_form"
+  get "/new-user", to: "todo_apps#register"
+  get "/old-user", to: "todo_apps#login"
 end

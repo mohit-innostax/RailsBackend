@@ -1,11 +1,12 @@
-<li id="todo_<%= todo["id"] %>" data-controller="search">
-  <span data-search-target="title"><%= todo["title"] %></span>
+<li id="todo_<%= todo_app["id"] %>" data-controller="search">
+  <span data-search-target="title"><%= todo_app["title"] %></span>
   <button data-action="click->search#edit">Edit</button>
-  <button data-action="click->search#delete" data-search-id="<%= todo["id"] %>">Delete</button>
+
+  <button data-action="click->search#delete" data-search-id="<%= todo_app["id"] %>">Delete</button>
 
   
   <form data-search-target="editForm" data-action="submit->search#update" style="display: none;">
-    <input type="text" data-search-target="input" value="<%= todo["title"] %>">
+    <input type="text" data-search-target="input" value="<%= todo_app["title"] %>">
     <button type="submit">Save</button>
     <button type="button" data-action="click->search#cancelEdit">Cancel</button>
   </form>

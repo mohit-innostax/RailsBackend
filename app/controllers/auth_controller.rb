@@ -5,7 +5,10 @@ class AuthController < ApplicationController
   def register
     user=User.new(user_params)
     if user.save
-      render json: { user: user, message: "User registered" }, status: 201
+      user=User.find_by(email: params[:email])
+      token= generate_token(user.id)
+      cookies.signed[:jwt] = { value: token, httponly: true, expires: 2.days.from_now }
+      redirect_to "/get-tasks", notice: "User created successfully" and return
     else
       render json: { error: user.errors.full_messages }, status: :unprocessable_entity
     end
@@ -15,7 +18,8 @@ class AuthController < ApplicationController
     user=User.find_by(email: params[:email])
     if user&.authenticate(params[:password])
       token= generate_token(user.id)
-      render json: { token: token, user: user }, status: :ok
+      cookies.signed[:jwt] = { value: token, httponly: true, expires: 2.days.from_now }
+      redirect_to "/get-tasks", notice: "User login successfully" and return
     else
       render json: { error: "Invalid creds" }, status: :unauthorized
     end
