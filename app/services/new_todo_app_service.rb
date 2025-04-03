@@ -18,11 +18,11 @@ module NewTodoAppService
       sql=<<~Sql_Query
               Insert into todo_apps ("title","isCompleted","priority","created_at","updated_at","createdby")
               Values ('#{todo_details["title"]}','#{todo_details["isCompleted"]}','#{todo_details["priority"]}',NOW(),NOW(),'#{todo_details["createdby"]}')
-              Returning *
+              Returning id
             Sql_Query
       result=ActiveRecord::Base.connection.execute(sql)
       if result.present?
-        { success: true, task: result.first, message: "Task created successfully" }
+        { success: true, task: result.first["id"], message: "Task created successfully" }
       else
         { success: false, error: "Fail" }
       end

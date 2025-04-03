@@ -30,6 +30,7 @@ class TodoAppsController < ApplicationController
         result=NewTodoAppService.create_task(todo_details)
         puts "Current params>>>>:#{todo_details.inspect}"
         if result[:success]
+            AutoCompleteTaskJob.set(wait: 15.seconds).perform_later(result[:task])
             redirect_to "/get-tasks", notice: "Task created successfully"
         else
             render :new_form
