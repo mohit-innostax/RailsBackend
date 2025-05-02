@@ -24,6 +24,9 @@ jobs:
       - name: Fix permissions for Brakeman
         run: chmod +x bin/brakeman
 
+      - name: Install brakeman
+        run: gem install brakeman
+
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bundle exec brakeman --no-pager
 
